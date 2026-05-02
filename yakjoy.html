@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Якjoй — Бозори Деҳқонон</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
+
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EEcc;
+    --green-mid: #0F6E56;
+    --green-dark: #085041;
+    --green-bg: #f0faf6;
+    --amber: #BA7517;
+    --amber-light: #FEF3DC;
+    --gray: #f7f7f5;
+    --border: #e2e2dd;
+    --text: #1a1a18;
+    --text-muted: #6b6b66;
+    --white: #ffffff;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--green-bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: -0.5px;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-left: 6px;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lang-toggle {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .lang-btn {
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+
+  .lang-btn.active {
+    background: var(--green);
+    color: white;
+  }
+
+  .nav-sell-btn {
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .nav-sell-btn:hover { background: var(--green-mid); }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    color: white;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero p {
+    font-size: 15px;
+    opacity: 0.85;
+    max-width: 480px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.6;
+  }
+
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat strong {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .hero-stat span {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* FILTERS */
+  .filter-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-bar input {
+    flex: 1;
+    min-width: 180px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+  }
+
+  .filter-bar input:focus { border-color: var(--green); }
+
+  .filter-bar select {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    cursor: pointer;
+    outline: none;
+  }
+
+  .filter-bar select:focus { border-color: var(--green); }
+
+  /* LISTINGS GRID */
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .listing-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .listing-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(29, 158, 117, 0.12);
+  }
+
+  .listing-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .listing-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .listing-cat {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--green-light);
+    color: var(--green-dark);
+  }
+
+  .listing-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .listing-price span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  .listing-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .listing-meta strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .listing-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  .tag-alif { background: #EEF2FF; color: #4338CA; }
+  .tag-cash { background: var(--amber-light); color: var(--amber); }
+  .tag-both { background: #F0FDF4; color: #166534; }
+
+  .contact-btn {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1.5px solid var(--green);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    color: var(--green);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: auto;
+  }
+
+  .contact-btn:hover {
+    background: var(--green);
+    color: white;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .modal-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+  }
+
+  .modal-close:hover { background: var(--gray); }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-family: 'Nunito', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--green); }
+
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .pay-opts {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pay-opt {
+    flex: 1;
+    padding: 10px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--white);
+    transition: all 0.15s;
+  }
+
+  .pay-opt.selected {
+    border-color: var(--green);
+    background: var(--green-light);
+    color: var(--green-dark);
+  }
+
+  .form-submit {
+    width: 100%;
+    padding: 12px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background 0.15s;
+  }
+
+  .form-submit:hover { background: var(--green-mid); }
+
+  .success-banner {
+    display: none;
+    background: #DCFCE7;
+    color: #166534;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  /* CONTACT MODAL */
+  .contact-info {
+    background: var(--gray);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .contact-info p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .contact-info strong {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .pay-badge {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+    background: var(--white);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div>
+    <span class="logo">Якжой</span>
+    <span class="logo-sub" id="nav-sub">Бозори Деҳқонон</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('tg')">ТҶ</button>
+      <button class="lang-btn" onclick="setLang('ru')">РУ</button>
+    </div>
+    <button class="nav-sell-btn" id="nav-sell" onclick="openSellModal()">+ Фурӯхтан</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 id="hero-title">Якjой — Бозори Маҳаллӣ</h1>
+  <p id="hero-sub">Деҳқонони маҳаллӣ маҳсулоти тозаашонро мустақиман ба шумо мефурӯшанд</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong id="stat-count">3</strong><span id="stat-label">Маҳсулот</span></div>
+    <div class="hero-stat"><strong>3</strong><span id="stat-farmers">Деҳқон</span></div>
+    <div class="hero-stat"><strong id="stat-cities">3</strong><span id="stat-cities-label">Шаҳр</span></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="filter-bar">
+    <input type="text" id="search-input" placeholder="Ҷустуҷӯ..." oninput="filterListings()" />
+    <select id="cat-filter" onchange="filterListings()">
+      <option value="">Ҳама навъ</option>
+      <option value="Сабзавот">Сабзавот</option>
+      <option value="Мева">Мева</option>
+      <option value="Гиёҳ">Гиёҳ</option>
+    </select>
+    <select id="pay-filter" onchange="filterListings()">
+      <option value="">Ҳама пардохт</option>
+      <option value="alif">Alif Bank</option>
+      <option value="cash">Нақд</option>
+      <option value="both">Ҳарду</option>
+    </select>
+  </div>
+
+  <div class="section-title" id="listings-title">Маҳсулотҳои дастрас</div>
+  <div class="listings-grid" id="listings-grid"></div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong style="color:var(--green)">Якжой</strong> &mdash; <span id="footer-text">Бозори маҳсулоти кишоварзии маҳаллӣ</span>
+</footer>
+
+<!-- SELL MODAL -->
+<div class="modal-overlay" id="sell-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="sell-title">Маҳсулоти нав илова кунед</div>
+      <button class="modal-close" onclick="closeSellModal()">✕</button>
+    </div>
+    <div class="form-group">
+      <label id="lbl-name">Номи маҳсулот</label>
+      <input type="text" id="prod-name" placeholder="Масалан: Помидор" />
+    </div>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label id="lbl-cat">Навъ</label>
+        <select id="prod-cat">
+          <option value="Сабзавот">Сабзавот</option>
+          <option value="Мева">Мева</option>
+          <option value="Гиёҳ">Гиёҳ</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label id="lbl-qty">Миқдор (кг)</label>
+        <input type="number" id="prod-qty" placeholder="50" min="1" />
+      </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="form-group">
+        <label id="lbl-price">Нарх (сомонӣ/кг)</label>
+        <input type="number" id="prod-price" placeholder="5" min="0.5" step="0.5" />
+      </div>
+      <div class="form-group">
+        <label id="lbl-loc">Маҳал</label>
+        <input type="text" id="prod-loc" placeholder="Масалан: Хоруғ" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label id="lbl-phone">Рақами телефон</label>
+      <input type="text" id="prod-phone" placeholder="+992..." />
+    </div>
+    <div class="form-group">
+      <label id="lbl-desc">Тавсиф (ихтиёрӣ)</label>
+      <textarea id="prod-desc" placeholder="Иттилооти иловагӣ..."></textarea>
+    </div>
+    <div class="form-group">
+      <label id="lbl-pay">Усули пардохт</label>
+      <div class="pay-opts">
+        <div class="pay-opt selected" onclick="selectPay(this,'alif')" id="pay-alif">Alif Bank</div>
+        <div class="pay-opt" onclick="selectPay(this,'cash')" id="pay-cash">Нақд</div>
+        <div class="pay-opt" onclick="selectPay(this,'both')" id="pay-both">Ҳарду</div>
+      </div>
+    </div>
+    <button class="form-submit" id="form-submit" onclick="submitListing()">Илова кардан</button>
+    <div class="success-banner" id="success-banner">Маҳсулот бо муваффақият илова шуд!</div>
+  </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div class="modal-overlay" id="contact-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="contact-title">Тамос</div>
+      <button class="modal-close" onclick="closeContactModal()">✕</button>
+    </div>
+    <p id="contact-intro" style="font-size:14px;color:var(--text-muted);line-height:1.6;"></p>
+    <div class="contact-info">
+      <p id="contact-phone-label">Рақами телефон</p>
+      <strong id="contact-phone"></strong>
+      <br/>
+      <span class="pay-badge" id="contact-pay-badge"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+var lang = 'tg';
+var selectedPay = 'alif';
+var listings = [
+  { name: 'Помидор', nameRu: 'Помидоры', cat: 'Сабзавот', qty: 80, price: 4, loc: 'Хоруғ', phone: '+992 935 001122', pay: 'alif', desc: '' },
+  { name: 'Себ', nameRu: 'Яблоки', cat: 'Мева', qty: 150, price: 6, loc: 'Ишкошим', phone: '+992 918 334455', pay: 'both', desc: 'Тоза аз боғ' },
+  { name: 'Картошка', nameRu: 'Картофель', cat: 'Сабзавот', qty: 200, price: 3, loc: 'Рӯшон', phone: '+992 901 556677', pay: 'cash', desc: 'Навъи маҳаллӣ' },
+];
+
+var T = {
+  tg: {
+    navSub: 'Бозори Деҳқонон', navSell: '+ Фурӯхтан',
+    heroTitle: 'Якжой — Бозори Маҳаллӣ',
+    heroSub: 'Деҳқонони маҳаллӣ маҳсулоти тозаашонро мустақиман ба шумо мефурӯшанд',
+    statLabel: 'Маҳсулот', statFarmers: 'Деҳқон', statCities: 'Шаҳр',
+    searchPlaceholder: 'Ҷустуҷӯ...',
+    catAll: 'Ҳама навъ', catVeg: 'Сабзавот', catFruit: 'Мева', catHerb: 'Гиёҳ',
+    payAll: 'Ҳама пардохт', payAlif: 'Alif Bank', payCash: 'Нақд', payBoth: 'Ҳарду',
+    listingsTitle: 'Маҳсулотҳои дастрас',
+    contact: 'Тамос гирифтан', per: 'сомонӣ/кг', avail: 'кг дастрас',
+    sellTitle: 'Маҳсулоти нав илова кунед',
+    lblName: 'Номи маҳсулот', lblCat: 'Навъ', lblQty: 'Миқдор (кг)',
+    lblPrice: 'Нарх (сомонӣ/кг)', lblLoc: 'Маҳал', lblPhone: 'Рақами телефон',
+    lblDesc: 'Тавсиф (ихтиёрӣ)', lblPay: 'Усули пардохт',
+    formSubmit: 'Илова кардан',
+    success: 'Маҳсулот бо муваффақият илова шуд!',
+    contactTitle: 'Тамос', contactPhoneLabel: 'Рақами телефон',
+    contactIntro: 'Барои харидан бо деҳқон тамос гиред:',
+    empty: 'Маҳсулот ёфт нашуд',
+    footer: 'Бозори маҳсулоти кишоварзии маҳаллӣ',
+    validationMsg: 'Лутфан ҳамаи майдонҳоро пур кунед'
+  },
+  ru: {
+    navSub: 'Рынок Фермеров', navSell: '+ Продать',
+    heroTitle: 'Yakжой — Местный Рынок',
+    heroSub: 'Местные фермеры продают свежую продукцию напрямую вам',
+    statLabel: 'Товаров', statFarmers: 'Фермеров', statCities: 'Городов',
+    searchPlaceholder: 'Поиск...',
+    catAll: 'Все категории', catVeg: 'Овощи', catFruit: 'Фрукты', catHerb: 'Зелень',
+    payAll: 'Все способы', payAlif: 'Alif Bank', payCash: 'Наличные', payBoth: 'Оба',
+    listingsTitle: 'Доступные товары',
+    contact: 'Связаться', per: 'сомони/кг', avail: 'кг в наличии',
+    sellTitle: 'Добавить новый товар',
+    lblName: 'Название товара', lblCat: 'Категория', lblQty: 'Количество (кг)',
+    lblPrice: 'Цена (сомони/кг)', lblLoc: 'Местоположение', lblPhone: 'Номер телефона',
+    lblDesc: 'Описание (необязательно)', lblPay: 'Способ оплаты',
+    formSubmit: 'Добавить',
+    success: 'Товар успешно добавлен!',
+    contactTitle: 'Контакт', contactPhoneLabel: 'Номер телефона',
+    contactIntro: 'Свяжитесь с фермером для покупки:',
+    empty: 'Товары не найдены',
+    footer: 'Рынок местной сельскохозяйственной продукции',
+    validationMsg: 'Пожалуйста, заполните все поля'
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(function(b) {
+    b.classList.toggle('active', (l === 'tg' && b.textContent === 'ТҶ') || (l === 'ru' && b.textContent === 'РУ'));
+  });
+  var s = T[l];
+  document.getElementById('nav-sub').textContent = s.navSub;
+  document.getElementById('nav-sell').textContent = s.navSell;
+  document.getElementById('hero-title').textContent = s.heroTitle;
+  document.getElementById('hero-sub').textContent = s.heroSub;
+  document.getElementById('stat-label').textContent = s.statLabel;
+  document.getElementById('stat-farmers').textContent = s.statFarmers;
+  document.getElementById('stat-cities-label').textContent = s.statCities;
+  document.getElementById('search-input').placeholder = s.searchPlaceholder;
+  document.querySelector('#cat-filter option[value=""]').textContent = s.catAll;
+  document.querySelector('#cat-filter option[value="Сабзавот"]').textContent = s.catVeg;
+  document.querySelector('#cat-filter option[value="Мева"]').textContent = s.catFruit;
+  document.querySelector('#cat-filter option[value="Гиёҳ"]').textContent = s.catHerb;
+  document.querySelector('#pay-filter option[value=""]').textContent = s.payAll;
+  document.querySelector('#pay-filter option[value="alif"]').textContent = s.payAlif;
+  document.querySelector('#pay-filter option[value="cash"]').textContent = s.payCash;
+  document.querySelector('#pay-filter option[value="both"]').textContent = s.payBoth;
+  document.getElementById('listings-title').textContent = s.listingsTitle;
+  document.getElementById('sell-title').textContent = s.sellTitle;
+  document.getElementById('lbl-name').textContent = s.lblName;
+  document.getElementById('lbl-cat').textContent = s.lblCat;
+  document.getElementById('lbl-qty').textContent = s.lblQty;
+  document.getElementById('lbl-price').textContent = s.lblPrice;
+  document.getElementById('lbl-loc').textContent = s.lblLoc;
+  document.getElementById('lbl-phone').textContent = s.lblPhone;
+  document.getElementById('lbl-desc').textContent = s.lblDesc;
+  document.getElementById('lbl-pay').textContent = s.lblPay;
+  document.getElementById('pay-cash').textContent = s.payCash;
+  document.getElementById('pay-both').textContent = s.payBoth;
+  document.getElementById('form-submit').textContent = s.formSubmit;
+  document.getElementById('success-banner').textContent = s.success;
+  document.getElementById('footer-text').textContent = s.footer;
+  document.getElementById('stat-count').textContent = listings.length;
+  filterListings();
+}
+
+function payLabel(pay) {
+  var s = T[lang];
+  if (pay === 'alif') return s.payAlif;
+  if (pay === 'cash') return s.payCash;
+  return s.payBoth;
+}
+
+function payTagClass(pay) {
+  if (pay === 'alif') return 'tag-alif';
+  if (pay === 'cash') return 'tag-cash';
+  return 'tag-both';
+}
+
+function renderListings(list) {
+  var s = T[lang];
+  var grid = document.getElementById('listings-grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state">' + s.empty + '</div>';
+    return;
+  }
+  grid.innerHTML = list.map(function(item) {
+    var name = (lang === 'ru' && item.nameRu) ? item.nameRu : item.name;
+    return '<div class="listing-card">' +
+      '<div class="listing-top">' +
+        '<div class="listing-name">' + name + '</div>' +
+        '<span class="listing-cat">' + item.cat + '</span>' +
+      '</div>' +
+      '<div class="listing-price">' + item.price.toFixed(1) + ' <span>' + s.per + '</span></div>' +
+      '<div class="listing-meta">' +
+        '<strong>' + item.qty + ' ' + s.avail + '</strong><br/>' +
+        item.loc +
+        (item.desc ? '<br/>' + item.desc : '') +
+      '</div>' +
+      '<div class="listing-tags">' +
+        '<span class="tag ' + payTagClass(item.pay) + '">' + payLabel(item.pay) + '</span>' +
+      '</div>' +
+      '<button class="contact-btn" onclick=\'openContactModal(' + JSON.stringify(item) + ')\'>' + s.contact + '</button>' +
+    '</div>';
+  }).join('');
+}
+
+function filterListings() {
+  var q = document.getElementById('search-input').value.toLowerCase();
+  var cat = document.getElementById('cat-filter').value;
+  var pay = document.getElementById('pay-filter').value;
+  var filtered = listings.filter(function(item) {
+    var nm = (item.name + ' ' + (item.nameRu || '')).toLowerCase();
+    return (!q || nm.includes(q)) && (!cat || item.cat === cat) && (!pay || item.pay === pay);
+  });
+  document.getElementById('stat-count').textContent = filtered.length;
+  renderListings(filtered);
+}
+
+function selectPay(el, val) {
+  document.querySelectorAll('.pay-opt').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedPay = val;
+}
+
+function openSellModal() {
+  document.getElementById('sell-modal').classList.add('open');
+}
+
+function closeSellModal() {
+  document.getElementById('sell-modal').classList.remove('open');
+  document.getElementById('success-banner').style.display = 'none';
+}
+
+function submitListing() {
+  var s = T[lang];
+  var name = document.getElementById('prod-name').value.trim();
+  var cat = document.getElementById('prod-cat').value;
+  var qty = parseInt(document.getElementById('prod-qty').value);
+  var price = parseFloat(document.getElementById('prod-price').value);
+  var loc = document.getElementById('prod-loc').value.trim();
+  var phone = document.getElementById('prod-phone').value.trim();
+  var desc = document.getElementById('prod-desc').value.trim();
+  if (!name || !qty || !price || !loc || !phone) { alert(s.validationMsg); return; }
+  listings.unshift({ name: name, nameRu: name, cat: cat, qty: qty, price: price, loc: loc, phone: phone, pay: selectedPay, desc: desc });
+  document.getElementById('prod-name').value = '';
+  document.getElementById('prod-qty').value = '';
+  document.getElementById('prod-price').value = '';
+  document.getElementById('prod-loc').value = '';
+  document.getElementById('prod-phone').value = '';
+  document.getElementById('prod-desc').value = '';
+  var banner = document.getElementById('success-banner');
+  banner.textContent = s.success;
+  banner.style.display = 'block';
+  setTimeout(function() { banner.style.display = 'none'; closeSellModal(); filterListings(); }, 2000);
+  document.getElementById('stat-count').textContent = listings.length;
+}
+
+function openContactModal(item) {
+  var s = T[lang];
+  var name = (lang === 'ru' && item.nameRu) ? item.nameRu : item.name;
+  document.getElementById('contact-title').textContent = s.contactTitle;
+  document.getElementById('contact-phone-label').textContent = s.contactPhoneLabel;
+  document.getElementById('contact-intro').textContent = s.contactIntro + ' ' + name;
+  document.getElementById('contact-phone').textContent = item.phone;
+  var badge = document.getElementById('contact-pay-badge');
+  badge.textContent = payLabel(item.pay);
+  badge.className = 'pay-badge ' + payTagClass(item.pay);
+  document.getElementById('contact-modal').classList.add('open');
+}
+
+function closeContactModal() {
+  document.getElementById('contact-modal').classList.remove('open');
+}
+
+document.getElementById('sell-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeSellModal();
+});
+document.getElementById('contact-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeContactModal();
+});
+
+renderListings(listings);
+</script>
+</body>
+</html>
